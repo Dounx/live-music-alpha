@@ -1,0 +1,7 @@
+<%= button_to 'Create room', new_room_path, method: :get %>
+
+<%= form_with url: join_rooms_url, method: :get, local: true do |f| %>
+  <%= f.label :q, "Token:" %>
+  <%= f.text_field :token, id: :token %>
+  <%= f.submit "Join room" %>
+<% end %>

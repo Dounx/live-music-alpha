@@ -1,0 +1,10 @@
+<%= form_with(model: @room, local: true) do |form| %>
+  <% if @room.errors.any? %>
+    <% @room.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  <% end %>
+
+  <%= form.text_field :url %>
+  <%= form.submit %>
+<% end %>
