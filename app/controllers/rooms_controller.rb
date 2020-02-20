@@ -29,7 +29,7 @@ class RoomsController < ApplicationController
       flash[:notice] = 'Join room!'
       render 'show'
     else
-      flash[:alert] = 'Invalid token'
+      flash[:error] = 'Invalid token'
       render 'rooms/index'
     end
   end
