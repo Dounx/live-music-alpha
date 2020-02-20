@@ -1,7 +1,9 @@
-<%= button_to 'Create room', new_room_path, method: :get %>
-
-<%= form_with url: join_rooms_url, method: :get, local: true do |f| %>
-  <%= f.label :q, "Token:" %>
-  <%= f.text_field :token, id: :token %>
-  <%= f.submit "Join room" %>
+<%= form_with(url: join_rooms_url, method: :get, local: true, class: 'form-group') do |f| %>
+  <div class="form-group">
+    <%= f.label :q, 'Room Token:' %>
+    <%= f.text_field :token, id: :q, class: 'form-control' %>
+  </div>
+  <%= f.submit "Join Room", class: 'btn btn-primary' %>
 <% end %>
+
+<%= button_to 'Create Room', new_room_path, method: :get, class: 'btn btn-primary' %>
