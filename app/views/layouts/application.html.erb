@@ -13,9 +13,13 @@
 
   <body>
     <div class="container">
+      <%= render partial: 'share/navbar' %>
+
       <%= render partial: 'share/flash', flash: flash %>
 
       <%= yield %>
+
+      <%= render partial: 'share/footer' %>
     </div>
   </body>
 </html>

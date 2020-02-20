@@ -14,7 +14,7 @@ class RoomsController < ApplicationController
     @room = current_user.rooms.build(room_params)
 
     if @room.save
-      flash[:notice] = 'Room added!'
+      flash[:notice] = '房间已创建！'
       redirect_to room_path(@room)
     else
       render 'new'
@@ -26,10 +26,10 @@ class RoomsController < ApplicationController
     @room = Room.find_by_token(token)
 
     if @room
-      flash[:notice] = 'Join room!'
+      flash[:notice] = '已加入房间！'
       render 'show'
     else
-      flash[:error] = 'Invalid token'
+      flash[:error] = '错误令牌'
       render 'rooms/index'
     end
   end

@@ -1,2 +1,6 @@
+<%= javascript_tag charset: "utf-8" do %>
+  let playlist = <%= @room.playlist.to_json.html_safe %>;
+<% end %>
+
 <div id="player"></div>
 <%= javascript_pack_tag 'player', 'data-turbolinks-track': 'reload'%>
