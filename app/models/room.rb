@@ -6,9 +6,7 @@ class Room < ApplicationRecord
   validates :url, presence: true, format: { with: %r{(http|https)://} }
   validates :token, presence: true, uniqueness: true
 
-  before_save :fetch_playlist, :generate_token
-
-  private
+  before_create :fetch_playlist, :generate_token
 
   def fetch_playlist
     prefix = 'http://127.0.0.1:4000/playlist/detail?id='
@@ -16,6 +14,8 @@ class Room < ApplicationRecord
     res = Net::HTTP.get(api)
     self.playlist = format(JSON.parse(res))
   end
+
+  private
 
   def playlist_id
     url.scan(/id=(.*)/).last.last

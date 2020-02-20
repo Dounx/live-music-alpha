@@ -1,6 +1,4 @@
 class RoomsController < ApplicationController
-  after_action :cors_set_access_control_headers
-
   def index; end
 
   def show
@@ -37,13 +35,6 @@ class RoomsController < ApplicationController
   end
 
   private
-
-  def cors_set_access_control_headers
-    headers['Access-Control-Allow-Origin'] = 'music.163.com'
-    headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, PATCH, OPTIONS'
-    headers['Access-Control-Request-Method'] = '*'
-    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  end
 
   def room_params
     params.require(:room).permit(:url)
