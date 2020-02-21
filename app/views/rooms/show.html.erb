@@ -1,6 +1,7 @@
 <%= javascript_tag charset: "utf-8" do %>
   let playlist = <%= @room.playlist.to_json.html_safe %>;
 <% end %>
-
+<%= button_to '刷新', refresh_room_path(@room), class: 'btn btn-primary' %>
 <div id="player"></div>
+
 <%= javascript_pack_tag 'player', 'data-turbolinks-track': 'reload'%>

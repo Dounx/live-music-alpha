@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   resources :rooms do
     get 'join', on: :collection
+    post 'refresh', on: :member
   end
 end

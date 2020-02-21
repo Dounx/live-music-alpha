@@ -1,4 +1,3 @@
-import createConsumer from "@rails/actioncable";
 import "aplayer/dist/APlayer.min.css";
 import APlayer from "aplayer";
 

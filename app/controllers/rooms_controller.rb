@@ -15,7 +15,7 @@ class RoomsController < ApplicationController
 
     if @room.save
       flash[:notice] = '房间已创建！'
-      redirect_to room_path(@room)
+      redirect_to room_path
     else
       render 'new'
     end
@@ -32,6 +32,13 @@ class RoomsController < ApplicationController
       flash[:error] = '错误令牌'
       render 'rooms/index'
     end
+  end
+
+  def refresh
+    id = params[:id]
+    room = Room.find_by_id(id)
+    room.refresh
+    redirect_back(fallback_location: join_rooms_path)
   end
 
   private
