@@ -24,18 +24,12 @@ class RoomsController < ApplicationController
 
     if @room
       flash[:notice] = '已加入房间！'
+      @room.refresh
       render 'show'
     else
       flash[:error] = '错误令牌'
       render 'rooms/index'
     end
-  end
-
-  def refresh
-    id = params[:id]
-    room = Room.find_by_id(id)
-    room.refresh
-    redirect_back(fallback_location: join_rooms_path)
   end
 
   private
