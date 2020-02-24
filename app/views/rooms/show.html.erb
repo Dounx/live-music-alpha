@@ -2,8 +2,12 @@
   let playlist = <%= @room.playlist.to_json.html_safe %>;
 <% end %>
 
+<div id="room-id" value= <%= @room.id %> ></div>
+<div id="is-admin" value= <%= @room.user == current_user %> ></div>
+
 <%= render partial: 'share/status' %>
 
 <div id="player"></div>
 
-<%= javascript_pack_tag 'player', 'data-turbolinks-track': 'reload'%>
+<%= javascript_pack_tag 'player', 'data-turbolinks-track': 'reload' %>
+ <%= javascript_pack_tag 'room', 'data-turbolinks-track': 'reload' %>

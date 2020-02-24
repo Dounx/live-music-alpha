@@ -4,7 +4,6 @@ class Room < ApplicationRecord
   belongs_to :user
 
   validates :url, presence: true, format: { with: %r{(http|https)://} }
-  validates :token, presence: true, uniqueness: true
 
   before_create :set_playlist, :generate_token
 

@@ -12,3 +12,5 @@ const player = new APlayer({
     listMaxHeight: 1024,
     audio: playlist
 });
+
+export { player };

@@ -1,10 +1,7 @@
 class RoomsController < ApplicationController
   def index; end
 
-  def show
-    id = params[:id]
-    @room ||= Room.find_by_id(id)
-  end
+  def show; end
 
   def new
     @room = Room.new
@@ -15,7 +12,7 @@ class RoomsController < ApplicationController
 
     if @room.save
       flash[:notice] = '房间已创建！'
-      redirect_to room_path
+      redirect_to join_rooms_path(token: @room.token)
     else
       render 'new'
     end

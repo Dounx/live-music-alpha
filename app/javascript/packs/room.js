@@ -1,0 +1,1 @@
+require("channels/rooms_channel");
