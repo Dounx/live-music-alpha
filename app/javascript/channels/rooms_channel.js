@@ -10,17 +10,18 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   connected() {
+    this.perform("join");
+
     if (isAdmin) {
       setInterval(this.sync, 1000);
     }
   },
 
   disconnected() {
+    this.perform("exit");
   },
 
   received(data) {
-    // FIXME
-    // Don't know why can't directly use isAdmin
     if (isAdmin === true) {
       return;
     }
@@ -31,7 +32,6 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
           player.list.switch(data["id"]);
         }
 
-        // FIXME
         if (player.audio.paused !== data["paused"]) {
           if (data["paused"] === true) {
             player.pause();
@@ -41,10 +41,13 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
         }
 
         let time = getCurrentTime();
-        if (Math.abs(time - data["time"]) > 1) {
+        if (Math.abs(time - data["time"]) > 3) {
           player.seek(data["time"]);
         }
 
+        break;
+      case "notice":
+        player.notice(data["msg"]);
         break;
       default:
         console.log(data);

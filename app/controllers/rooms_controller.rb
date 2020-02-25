@@ -1,7 +1,11 @@
 class RoomsController < ApplicationController
-  def index; end
+  def index
+    @rooms = current_user.rooms
+  end
 
-  def show; end
+  def show
+    @room = current_user.rooms.find(params[:id])
+  end
 
   def new
     @room = Room.new
@@ -20,15 +24,15 @@ class RoomsController < ApplicationController
 
   def join
     token = params[:token]
-    @room = Room.find_by_token(token)
+    return unless token.present?
 
+    @room = Room.find_by_token(token)
     if @room
       flash[:notice] = '已加入房间！'
       @room.refresh
       render 'show'
     else
-      flash[:error] = '错误令牌'
-      render 'rooms/index'
+      flash[:error] = '错误令牌！'
     end
   end
 
