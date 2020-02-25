@@ -1,0 +1,12 @@
+#!/bin/bash
+
+cd lib || return
+
+if [ ! -d NeteaseCloudMusicApi ]; then
+    git clone git@github.com:Binaryify/NeteaseCloudMusicApi.git
+fi
+
+cd NeteaseCloudMusicApi || return
+npm install
+
+PORT=4000 node app.js
