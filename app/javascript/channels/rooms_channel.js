@@ -1,8 +1,21 @@
 import consumer from "./consumer"
-import { player } from "../packs/player"
+import APlayer from "aplayer";
+import "aplayer/dist/APlayer.min.css";
 
 let room_id = document.getElementById("room-id").getAttribute("value");
 let isAdmin = document.getElementById("is-admin").getAttribute("value");
+
+const songUrlPrefix = "https://music.163.com/song/media/outer/url?id=";
+
+playlist.forEach(obj => {
+  obj["url"] = songUrlPrefix + obj["id"]
+});
+
+const player = new APlayer({
+  container: document.getElementById("player"),
+  listMaxHeight: 1024,
+  audio: playlist
+});
 
 consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   initialized() {

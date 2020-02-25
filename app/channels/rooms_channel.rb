@@ -12,7 +12,7 @@ class RoomsChannel < ApplicationCable::Channel
 
   def exit
     RoomsChannel.broadcast_to(@room, { action: 'notice', msg:"#{current_user.email} 已退出！" })
-    @room.destroy if @room.user == current_user
+      # @room.destroy if @room.user == current_user
   end
 
   # data
