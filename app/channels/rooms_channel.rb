@@ -2,17 +2,11 @@ class RoomsChannel < ApplicationCable::Channel
   def subscribed
     @room = Room.find(params[:id])
     stream_for @room
+    appear
   end
 
-  def unsubscribed; end
-
-  def join
-    RoomsChannel.broadcast_to(@room, { action: 'notice', msg:"#{current_user.email} 已加入！" })
-  end
-
-  def exit
-    RoomsChannel.broadcast_to(@room, { action: 'notice', msg:"#{current_user.email} 已退出！" })
-      # @room.destroy if @room.user == current_user
+  def unsubscribed
+    disappear
   end
 
   # data
@@ -25,5 +19,16 @@ class RoomsChannel < ApplicationCable::Channel
     return unless @room.user == current_user
 
     RoomsChannel.broadcast_to(@room, data)
+  end
+
+  private
+
+  def appear
+    RoomsChannel.broadcast_to(@room, { action: 'notice', msg:"#{current_user.email} 已加入！" })
+  end
+
+  def disappear
+    RoomsChannel.broadcast_to(@room, { action: 'notice', msg:"#{current_user.email} 已退出！" })
+    @room.destroy if @room.user == current_user
   end
 end

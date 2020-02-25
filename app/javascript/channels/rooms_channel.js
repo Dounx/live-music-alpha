@@ -23,15 +23,13 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   connected() {
-    this.perform("join");
-
     if (isAdmin) {
       setInterval(this.sync, 1000);
     }
   },
 
   disconnected() {
-    this.perform("exit");
+    // Some code...
   },
 
   received(data) {
