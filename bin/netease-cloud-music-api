@@ -3,7 +3,7 @@
 cd lib || return
 
 if [ ! -d NeteaseCloudMusicApi ]; then
-    git clone git@github.com:Binaryify/NeteaseCloudMusicApi.git
+    git clone https://github.com/Binaryify/NeteaseCloudMusicApi.git
 fi
 
 cd NeteaseCloudMusicApi || return
