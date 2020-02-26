@@ -17,17 +17,17 @@ threads min_threads_count, max_threads_count
 environment ENV.fetch('RAILS_ENV') { 'development' }
 
 app_dir = File.expand_path('..', __dir__)
-shared_dir = "#{app_dir}/shared"
+tmp_dir = "#{app_dir}/tmp"
 
 # Set up socket location
-bind "unix://#{shared_dir}/sockets/puma.sock"
+bind "unix://#{tmp_dir}/sockets/puma.sock"
 
 # Logging
-stdout_redirect "#{shared_dir}/log/puma.stdout.log", "#{shared_dir}/log/puma.stderr.log", true
+stdout_redirect "#{app_dir}/log/puma.stdout.log", "#{app_dir}log/puma.stderr.log", true
 
 # Set master PID and state locations
-pidfile "#{shared_dir}/pids/puma.pid"
-state_path "#{shared_dir}/pids/puma.state"
+pidfile "#{tmp_dir}/pids/puma.pid"
+state_path "#{tmp_dir}/pids/puma.state"
 activate_control_app
 
 on_worker_boot do
