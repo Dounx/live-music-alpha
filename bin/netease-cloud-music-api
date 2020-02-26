@@ -7,6 +7,9 @@ if [ ! -d NeteaseCloudMusicApi ]; then
 fi
 
 cd NeteaseCloudMusicApi || return
+
+git pull
+
 npm install
 
 PORT=4000 node app.js
