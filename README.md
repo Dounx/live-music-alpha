@@ -1,24 +1,46 @@
-# README
+## Live Music
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Web 版网易云音乐同步听歌。
 
-Things you may want to cover:
+使用歌单链接创建房间，把 URL 分享给朋友即可。
 
-* Ruby version
+创建房间的用户会将其听歌状态同步给当前房间内的其他用户。
 
-* System dependencies
+### 依赖
 
-* Configuration
+* Ruby 2.7.0
+* Node.js
+* Yarn
+* Redis
+* PostgreSQL
 
-* Database creation
+### 开发环境
 
-* Database initialization
+```bash
+# Session 1
+rvm install 2.7.0
+bundle install
+rails db:create
+rails db:migrate
+rails s
 
-* How to run the test suite
+# Session 2
+./bin/webpack-dev-server
 
-* Services (job queues, cache servers, search engines, etc.)
+# Session 3
+./bin/netease-cloud-music-api
+```
 
-* Deployment instructions
+### 部署
 
-* ...
+Dockerfile 正在编写中...
+
+### To Do List
+
+* Dockerfile
+* 房间列表
+* 歌词列表
+* 聊天窗口
+* 自定义歌单
+* 性能优化
+* 模块化（不仅仅是网易云音乐）
