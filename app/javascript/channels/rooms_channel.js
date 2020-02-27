@@ -16,6 +16,10 @@ const player = new APlayer({
   audio: playlist
 });
 
+// Init player
+player.play();
+player.pause();
+
 consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   initialized() {
     this.sync = this.sync.bind(this);
