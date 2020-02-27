@@ -29,7 +29,8 @@ class RoomsController < ApplicationController
     @room = Room.find_by_token(token)
     if @room
       flash[:notice] = '已加入房间！'
-      @room.refresh
+      # No need to refresh id
+      # @room.refresh
       render 'show'
     else
       flash[:error] = '错误令牌！'
