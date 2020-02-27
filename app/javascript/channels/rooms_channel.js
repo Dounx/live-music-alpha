@@ -1,6 +1,5 @@
 import consumer from "./consumer"
 import APlayer from "aplayer";
-import "aplayer/dist/APlayer.min.css";
 
 let room_id = document.getElementById("room-id").getAttribute("value");
 let isAdmin = document.getElementById("is-admin").getAttribute("value");
