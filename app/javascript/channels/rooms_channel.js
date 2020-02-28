@@ -1,8 +1,8 @@
 import consumer from "./consumer"
 import APlayer from "aplayer";
 
-let room_id = document.getElementById("room-id").getAttribute("value");
-let isAdmin = document.getElementById("is-admin").getAttribute("value");
+let room_id = parseInt(document.getElementById("room-id").getAttribute("value"));
+let isAdmin = (document.getElementById("is-admin").getAttribute("value") === "true");
 
 const songUrlPrefix = "https://music.163.com/song/media/outer/url?id=";
 
@@ -26,7 +26,7 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   connected() {
-    if (isAdmin === true) {
+    if (isAdmin) {
       setInterval(this.sync, 1000);
     }
   },
@@ -36,7 +36,7 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   received(data) {
-    if (isAdmin === true) {
+    if (isAdmin) {
       return;
     }
 
