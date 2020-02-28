@@ -26,7 +26,9 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   connected() {
-    setInterval(this.sync, 1000);
+    if (isAdmin === true) {
+      setInterval(this.sync, 1000);
+    }
   },
 
   disconnected() {
