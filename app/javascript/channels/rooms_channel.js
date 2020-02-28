@@ -1,3 +1,5 @@
+import "styles/player"
+
 import consumer from "./consumer"
 import APlayer from "aplayer";
 
@@ -15,11 +17,11 @@ const lrcApi = api + "/rooms/lrc?song_id=";
 playlist.forEach(obj => {
   obj.url = songApi + obj.id;
   obj.lrc = lrcApi + obj.id;
-  console.log(obj.lrc)
 });
 
 const player = new APlayer({
   container: document.getElementById("player"),
+  listFolded: true,
   listMaxHeight: 1024,
   audio: playlist,
   lrcType: 3,
@@ -67,7 +69,7 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
 
         break;
       case "notice":
-        player.notice(data["msg"]);
+        flash("notice", data["msg"]);
         break;
       default:
         console.log(data);
@@ -90,4 +92,21 @@ function getCurrentId() {
 
 function getCurrentTime() {
   return player.audio.currentTime;
+}
+
+function flash(level, msg) {
+  let cls = "alert-info";
+  switch (level) {
+    case "notice":
+      cls = "alert-info";
+      break;
+    case "error":
+      cls = "alert-danger";
+      break;
+  }
+
+  $(".flash").append("<div class=\"alert " + cls + " alert-dismissable fade show\">\n" +
+      "      " + msg + "\n" +
+      "      <button class=\"close\" data-dismiss=\"alert\">x</button>\n" +
+      "    </div>");
 }
