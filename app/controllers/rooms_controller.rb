@@ -37,6 +37,15 @@ class RoomsController < ApplicationController
     end
   end
 
+  def lrc
+    song_id = params[:song_id]
+    prefix = 'http://127.0.0.1:4000/lyric?id='
+    api = URI.parse(prefix + song_id)
+    res = Net::HTTP.get(api)
+    data = JSON.parse(res)['lrc']&.fetch('lyric')
+    render json: data&.squish
+  end
+
   private
 
   def room_params

@@ -4,21 +4,27 @@ import APlayer from "aplayer";
 let room_id = parseInt(document.getElementById("room-id").getAttribute("value"));
 let isAdmin = (document.getElementById("is-admin").getAttribute("value") === "true");
 
-const songUrlPrefix = "https://music.163.com/song/media/outer/url?id=";
+const songApi = "https://music.163.com/song/media/outer/url?id=";
 
+const host = window.location.hostname;
+const port = "3000";
+const api = "http://" + host + ":" + port;
+const lrcApi = api + "/rooms/lrc?song_id=";
+
+// Make song urls and lrcs
 playlist.forEach(obj => {
-  obj["url"] = songUrlPrefix + obj["id"]
+  obj.url = songApi + obj.id;
+  obj.lrc = lrcApi + obj.id;
+  console.log(obj.lrc)
 });
 
 const player = new APlayer({
   container: document.getElementById("player"),
   listMaxHeight: 1024,
-  audio: playlist
+  audio: playlist,
+  lrcType: 3,
+  autoplay: true
 });
-
-// Init player
-player.play();
-player.pause();
 
 consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   initialized() {
@@ -42,8 +48,8 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
 
     switch (data["action"]) {
       case "sync":
-        if (getCurrentId() !== data["id"]) {
-          player.list.switch(data["id"]);
+        if (getCurrentIndex() !== data["index"]) {
+          player.list.switch(data["index"]);
         }
 
         if (player.audio.paused !== data["paused"]) {
@@ -69,12 +75,17 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   sync() {
-    this.perform("sync", { paused: player.audio.paused, id: getCurrentId(), time: getCurrentTime() });
+    this.perform("sync", { paused: player.audio.paused, index: getCurrentIndex(), time: getCurrentTime() });
   }
 });
 
-function getCurrentId() {
+function getCurrentIndex() {
   return player.list.index;
+}
+
+function getCurrentId() {
+  let index = getCurrentIndex();
+  return player.list.audios[index]["id"]
 }
 
 function getCurrentTime() {

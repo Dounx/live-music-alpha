@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   resources :rooms, only: %i[show new create] do
     get 'join', on: :collection
+    get 'lrc', on: :collection
   end
 end
