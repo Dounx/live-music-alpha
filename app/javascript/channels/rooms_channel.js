@@ -44,12 +44,12 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   received(data) {
-    if (isAdmin) {
-      return;
-    }
-
     switch (data["action"]) {
       case "sync":
+        if (isAdmin) {
+          break;
+        }
+        
         if (getCurrentIndex() !== data["index"]) {
           player.list.switch(data["index"]);
         }
