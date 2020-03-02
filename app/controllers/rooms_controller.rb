@@ -1,10 +1,13 @@
 class RoomsController < ApplicationController
+  include RoomsHelper
+
   def index
     @rooms = current_user.rooms
   end
 
   def show
-    @room = current_user.rooms.find(params[:id])
+    room = current_user.rooms.find(params[:id])
+    redirect_to share_url(room)
   end
 
   def new
@@ -28,9 +31,8 @@ class RoomsController < ApplicationController
 
     @room = Room.find_by_token(token)
     if @room
-      flash[:notice] = '已加入房间！'
-      # No need to refresh id
-      # @room.refresh
+      # Some people will add new songs to the playlist
+      @room.refresh
       render 'show'
     else
       flash[:error] = '错误令牌！'

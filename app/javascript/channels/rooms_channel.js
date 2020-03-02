@@ -69,7 +69,7 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
 
         break;
       case "notice":
-        flash("notice", data["msg"]);
+        flash("notice", data["msg"], 3000);
         break;
       default:
         console.log(data);
@@ -94,7 +94,7 @@ function getCurrentTime() {
   return player.audio.currentTime;
 }
 
-function flash(level, msg) {
+function flash(level, msg, delay = 0) {
   let cls = "alert-info";
   switch (level) {
     case "notice":
@@ -105,8 +105,12 @@ function flash(level, msg) {
       break;
   }
 
-  $(".flash").append("<div class=\"alert " + cls + " alert-dismissable fade show\">\n" +
+  let ele = $(".flash").append("<div class=\"alert " + cls + " alert-dismissable fade show\">\n" +
       "      " + msg + "\n" +
       "      <button class=\"close\" data-dismiss=\"alert\">x</button>\n" +
       "    </div>");
+
+  if (delay !== 0) {
+    ele.delay(delay).fadeOut();
+  }
 }
