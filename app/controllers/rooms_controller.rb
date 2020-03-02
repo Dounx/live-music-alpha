@@ -1,9 +1,7 @@
 class RoomsController < ApplicationController
   include RoomsHelper
 
-  def index
-    @rooms = current_user.rooms
-  end
+  def index; end
 
   def show
     room = current_user.rooms.find(params[:id])
@@ -15,11 +13,11 @@ class RoomsController < ApplicationController
   end
 
   def create
-    @room = current_user.rooms.build(room_params)
+    room = current_user.rooms.build(room_params)
 
-    if @room.save
+    if room.save
       flash[:notice] = '房间已创建！'
-      redirect_to join_rooms_path(token: @room.token)
+      redirect_to join_rooms_path(token: room.token)
     else
       render 'new'
     end
@@ -38,12 +36,7 @@ class RoomsController < ApplicationController
   end
 
   def lrc
-    song_id = params[:song_id]
-    prefix = 'http://127.0.0.1:4000/lyric?id='
-    api = URI.parse(prefix + song_id)
-    res = Net::HTTP.get(api)
-    data = JSON.parse(res)['lrc']&.fetch('lyric')
-    render json: data&.squish
+    render json: Api.lrc(params[:song_id])
   end
 
   private
