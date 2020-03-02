@@ -68,6 +68,7 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
         break;
       case "notice":
         flash("notice", data["msg"], 3000);
+        setUserCounter(data["user_counter"]);
         break;
       default:
         console.log(data);
@@ -111,4 +112,8 @@ function flash(level, msg, delay = 0) {
   if (delay !== 0) {
     ele.delay(delay).fadeOut();
   }
+}
+
+function setUserCounter(num) {
+  $("#user-counter").text(num);
 }
