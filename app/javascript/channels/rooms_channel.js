@@ -104,10 +104,12 @@ function flash(level, msg, delay = 0) {
       break;
   }
 
-  let ele = $(".flash").append("<div class=\"alert " + cls + " alert-dismissable fade show\">\n" +
+  let ele = $("<div class=\"alert " + cls + " alert-dismissable fade show\">\n" +
       "      " + msg + "\n" +
       "      <button class=\"close\" data-dismiss=\"alert\">x</button>\n" +
       "    </div>");
+
+  ele.appendTo($(".flash"));
 
   if (delay !== 0) {
     ele.delay(delay).fadeOut();

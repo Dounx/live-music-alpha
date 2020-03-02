@@ -45,6 +45,8 @@ Rails.application.configure do
 
   # Need set host domain
   # ENV["HOST_DOMAIN"]
+  raise 'Please export HOST_DOMAIN' unless ENV["HOST_DOMAIN"]
+
   config.action_cable.allowed_request_origins = %W[
     http://#{ENV['HOST_DOMAIN']}
     https://#{ENV['HOST_DOMAIN']}
