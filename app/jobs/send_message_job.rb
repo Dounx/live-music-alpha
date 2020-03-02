@@ -2,7 +2,9 @@ class SendMessageJob < ApplicationJob
   queue_as :default
 
   def perform(message)
-    child(message).deliver
+    message = child(message)
+    message.deliver
+    message.destroy
   end
 
   private
