@@ -6,6 +6,7 @@ class Room < ApplicationRecord
   validates :url, presence: true, format: { with: %r{(http|https)://} }
 
   before_create :set_playlist, :generate_token
+  after_find :refresh
 
   def refresh
     update(playlist: fetch_playlist)

@@ -18,16 +18,22 @@ class RoomsChannel < ApplicationCable::Channel
   def sync(data)
     return unless @room.user == current_user
 
-    RoomsChannel.broadcast_to(@room, data)
+    RoomMessage.create(data: data, from: current_user.id, to: @room.id)
   end
 
   private
 
   def appear
-    RoomsChannel.broadcast_to(@room, { action: 'notice', msg:"#{current_user.email} 已加入！" })
+    data = notice('已加入！')
+    RoomMessage.create(data: data, from: current_user.id, to: @room.id)
   end
 
   def disappear
-    RoomsChannel.broadcast_to(@room, { action: 'notice', msg:"#{current_user.email} 已退出！" })
+    data = notice('已退出！')
+    RoomMessage.create(data: data, from: current_user.id, to: @room.id)
+  end
+
+  def notice(content)
+    { action: 'notice', msg: "#{current_user.email} #{content}" }
   end
 end

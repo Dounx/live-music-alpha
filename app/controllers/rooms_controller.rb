@@ -31,8 +31,6 @@ class RoomsController < ApplicationController
 
     @room = Room.find_by_token(token)
     if @room
-      # Some people will add new songs to the playlist
-      @room.refresh
       render 'show'
     else
       flash[:error] = '错误令牌！'

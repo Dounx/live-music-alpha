@@ -3,14 +3,12 @@ import "styles/player"
 import consumer from "./consumer"
 import APlayer from "aplayer";
 
-let room_id = parseInt(document.getElementById("room-id").getAttribute("value"));
-let isAdmin = (document.getElementById("is-admin").getAttribute("value") === "true");
+const room_id = parseInt(document.getElementById("room-id").getAttribute("value"));
+const isAdmin = (document.getElementById("is-admin").getAttribute("value") === "true");
 
 const songApi = "https://music.163.com/song/media/outer/url?id=";
 
-const host = window.location.hostname;
-const port = "3000";
-const api = "http://" + host + ":" + port;
+const api = document.getElementById("host-url").getAttribute("value");
 const lrcApi = api + "/rooms/lrc?song_id=";
 
 // Make song urls and lrcs
@@ -21,7 +19,6 @@ playlist.forEach(obj => {
 
 const player = new APlayer({
   container: document.getElementById("player"),
-  listFolded: true,
   listMaxHeight: 1024,
   audio: playlist,
   lrcType: 3,
@@ -44,6 +41,7 @@ consumer.subscriptions.create({ channel: "RoomsChannel", id: room_id }, {
   },
 
   received(data) {
+    data = JSON.parse(data);
     switch (data["action"]) {
       case "sync":
         if (isAdmin) {
