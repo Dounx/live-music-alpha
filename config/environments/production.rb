@@ -43,8 +43,12 @@ Rails.application.configure do
   # config.action_cable.url = 'wss://example.com/cable'
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
-  # Need to be server domain
-  config.action_cable.allowed_request_origins = ['http://106.12.191.133', 'https://106.12.191.133']
+  # Need set host domain
+  # ENV["HOST_DOMAIN"]
+  config.action_cable.allowed_request_origins = %W[
+    http://#{ENV['HOST_DOMAIN']}
+    https://#{ENV['HOST_DOMAIN']}
+  ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # config.force_ssl = true
