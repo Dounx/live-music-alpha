@@ -1,39 +1,27 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/">Live Music</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+<nav class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal">Live Music</h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="https://space.bilibili.com/386290533">哔哩哔哩</a>
+    <a class="p-2 text-dark" href="https://blog.dounx.me">博客</a>
+    <a class="p-2 text-dark" href="https://github.com/dounx/live-music">GitHub</a>
+  </nav>
+  <ul class="navbar-nav my-2 my-lg-0">
+    <% unless user_signed_in? %>
       <li class="nav-item">
-        <a class="nav-link" href="https://space.bilibili.com/386290533">哔哩哔哩</a>
+        <%= link_to('登陆', new_user_session_path, class: 'nav-link') %>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://blog.dounx.me">博客</a>
+    <% else %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= current_user.email %>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <%= link_to('房间', join_rooms_path, class: 'dropdown-item') %>
+          <%= link_to('设置', edit_user_registration_path, class: 'dropdown-item') %>
+          <div class="dropdown-divider"></div>
+          <%= link_to('登出', destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
+        </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://github.com/dounx/live-music">GitHub</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav my-2 my-lg-0">
-      <% unless user_signed_in? %>
-        <li class="nav-item">
-          <%= link_to('登陆', new_user_session_path, class: 'nav-link') %>
-        </li>
-      <% else %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= current_user.email %>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <%= link_to('房间', join_rooms_path, class: 'dropdown-item') %>
-            <%= link_to('设置', edit_user_registration_path, class: 'dropdown-item') %>
-            <div class="dropdown-divider"></div>
-            <%= link_to('登出', destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
-          </div>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+    <% end %>
+  </ul>
 </nav>
