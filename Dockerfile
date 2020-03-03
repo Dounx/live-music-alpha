@@ -1,28 +1,32 @@
-FROM ruby:2.7.0
+FROM ruby:2.7-alpine
 
-RUN apt-get update -qq && apt-get install -y postgresql postgresql-client redis nodejs yarn nginx
+MAINTAINER Dounx "https://github.com/Dounx"
+RUN gem install bundler
+RUN apk --update add ca-certificates nodejs tzdata imagemagick &&\
+  apk add --virtual .builddeps build-base ruby-dev libc-dev openssl linux-headers postgresql-dev \
+  libxml2-dev libxslt-dev git curl nginx nginx-mod-http-image-filter nginx-mod-http-geoip &&\
+  rm /etc/nginx/conf.d/default.conf
 
-RUN service postgresql initdb && service postgresql start && service redis start && service nginx start
+RUN curl https://get.acme.sh | sh
 
-RUN mkdir /live-music
-WORKDIR /live-music
-COPY Gemfile /live-music/Gemfile
-COPY Gemfile.lock /live-music/Gemfile.lock
-RUN bundle install
-COPY . /live-music
+ENV RAILS_ENV "production"
 
-# Example secret key
-ENV SECRET_KEY_BASE d99ee7bae2ff012fb24a477f2393dc7508a05258fcb926cc14e0c8a1eb326ca828bac37088058551a137c496d4e1677091ef7ffc5dcc4396abc30a1f513aba32
-# Example domain
-ENV HOST_DOMAIN 106.12.191.133
-ENV RAILS_ENV production
+WORKDIR /home/app/live-music
 
-RUN rails db:create && rails db:migrate && rails assets:precompile
+VOLUME /home/app/live-music/plugins
 
-EXPOSE 80 4000
+RUN mkdir -p /home/app &&\
+  find / -type f -iname '*.apk-new' -delete &&\
+  rm -rf '/var/cache/apk/*' '/tmp/*'
 
-# Start the Netease API process at 0.0.0.0:4000
-RUN nohup bash -c "./bin/netease-cloud-music-api &"
+ADD Gemfile Gemfile.lock /home/app/live-music/
+RUN gem install puma
+RUN bundle install --deployment --jobs 20 --retry 5 &&\
+  find /home/app/live-music/vendor/bundle -name tmp -type d -exec rm -rf {} +
+ADD . /home/app/live-music
+ADD ./config/nginx/ /etc/nginx
 
-# Start the main process
-CMD ["rails", "server"]
+RUN rm -Rf /home/app/live-music/vendor/cache
+
+RUN bundle exec rails assets:precompile RAILS_ENV=production SECRET_KEY_BASE=fake_secure_for_compile\
+  HOST_DOMAIN=fake_domain_for_compile
