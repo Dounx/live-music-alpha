@@ -8,6 +8,8 @@ max_threads_count = ENV.fetch('RAILS_MAX_THREADS') { 5 }
 min_threads_count = ENV.fetch('RAILS_MIN_THREADS') { max_threads_count }
 threads min_threads_count, max_threads_count
 
+workers(ENV['workers'] || 4)
+
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
 # port        ENV.fetch('PORT') { 3000 }
@@ -31,9 +33,13 @@ state_path "#{tmp_dir}/pids/puma.state"
 activate_control_app
 
 on_worker_boot do
-  require 'active_record'
-  ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
-  ActiveRecord::Base.establish_connection(YAML.load_file("#{app_dir}/config/database.yml")[rails_env])
+  ActiveSupport.on_load(:active_record) do
+    ActiveRecord::Base.establish_connection
+  end
+end
+
+before_fork do
+  ActiveRecord::Base.connection_pool.disconnect!
 end
 
 # Specifies the number of `workers` to boot in clustered mode.
