@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+nginx -c /etc/nginx/nginx.conf

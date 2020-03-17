@@ -33,7 +33,7 @@ rails s
 
 ### 部署
 
-Dockerfile 正在编写中...
+[live-music-docker](https://github.com/Dounx/live-music-docker)
 
 ### To Do List
 
